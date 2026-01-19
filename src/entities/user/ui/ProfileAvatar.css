@@ -1,0 +1,39 @@
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile-avatar-text {
+  user-select: none;
+}
+
+.profile-avatar-small {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.profile-avatar-medium {
+  width: 80px;
+  height: 80px;
+  font-size: 32px;
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  font-size: 48px;
+}
+
