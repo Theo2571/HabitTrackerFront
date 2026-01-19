@@ -9,7 +9,6 @@ import {
   useSensors,
   closestCorners,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import { useTasksQuery, useDeleteTaskMutation, useToggleTaskMutation } from '../../../entities/task/model/useTaskQueries';
 import { useMoveTaskMutation } from '../../../entities/task/model/useTaskMutations';

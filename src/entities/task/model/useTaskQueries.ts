@@ -48,7 +48,7 @@ export const useToggleTaskMutation = () => {
 
       return { previousTasks };
     },
-    onError: (err, taskId, context) => {
+    onError: (_err, _taskId, context) => {
       // Откатываем изменения при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);
@@ -80,7 +80,7 @@ export const useDeleteTaskMutation = () => {
 
       return { previousTasks };
     },
-    onError: (err, taskId, context) => {
+    onError: (_err, _taskId, context) => {
       // Откатываем изменения при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);

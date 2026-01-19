@@ -8,7 +8,7 @@ export const useMoveTaskMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ taskId, completed }: { taskId: number; completed: boolean }) => {
+    mutationFn: async ({ taskId}: { taskId: number; completed: boolean }) => {
       // Всегда вызываем toggle API, так как мы уже проверили изменение статуса в компоненте
       const result = await taskApi.toggle(taskId);
       return result;
@@ -26,7 +26,7 @@ export const useMoveTaskMutation = () => {
 
       return { previousTasks };
     },
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       // Откатываем изменения при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);
