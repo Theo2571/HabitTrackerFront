@@ -22,7 +22,7 @@ export const userApi = {
   updateProfile: async (payload: UpdateProfilePayload): Promise<ServerProfile> => {
     return apiRequest<ServerProfile>('/users/me', {
       method: 'PUT',
-      body: JSON.stringify(payload),
+      body: payload, // axios автоматически сериализует объект в JSON
     });
   },
 };

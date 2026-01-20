@@ -8,6 +8,10 @@ export const useTasksQuery = () => {
   return useQuery({
     queryKey: TASKS_QUERY_KEY,
     queryFn: taskApi.getAll,
+    // Увеличиваем staleTime, чтобы данные считались свежими дольше
+    // Это предотвращает ненужные автоматические refetch
+    // но не блокирует обновления через setQueryData
+    staleTime: 30 * 1000, // 30 секунд
   });
 };
 
@@ -31,13 +35,10 @@ export const useToggleTaskMutation = () => {
   return useMutation({
     mutationFn: taskApi.toggle,
     onMutate: async (taskId) => {
-      // Отменяем исходящие запросы
       await queryClient.cancelQueries({ queryKey: TASKS_QUERY_KEY });
 
-      // Сохраняем предыдущее значение
       const previousTasks = queryClient.getQueryData<Task[]>(TASKS_QUERY_KEY);
 
-      // Оптимистично обновляем UI
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === taskId
@@ -49,13 +50,11 @@ export const useToggleTaskMutation = () => {
       return { previousTasks };
     },
     onError: (_err, _taskId, context) => {
-      // Откатываем изменения при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);
       }
     },
     onSettled: () => {
-      // Обновляем данные после завершения
       queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
     },
   });
@@ -67,13 +66,10 @@ export const useDeleteTaskMutation = () => {
   return useMutation({
     mutationFn: taskApi.delete,
     onMutate: async (taskId) => {
-      // Отменяем исходящие запросы
       await queryClient.cancelQueries({ queryKey: TASKS_QUERY_KEY });
 
-      // Сохраняем предыдущее значение
       const previousTasks = queryClient.getQueryData<Task[]>(TASKS_QUERY_KEY);
 
-      // Оптимистично удаляем из UI
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.filter((task) => task.id !== taskId)
       );
@@ -81,15 +77,13 @@ export const useDeleteTaskMutation = () => {
       return { previousTasks };
     },
     onError: (_err, _taskId, context) => {
-      // Откатываем изменения при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);
       }
     },
-    onSettled: () => {
-      // Обновляем данные после завершения
-      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
-    },
+    // onSettled: () => {
+    //   queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+    // },
   });
 };
 

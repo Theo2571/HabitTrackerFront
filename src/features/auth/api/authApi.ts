@@ -6,7 +6,7 @@ export const authApi = {
   register: async (credentials: RegisterCredentials): Promise<AuthResponse> => {
     const response = await apiRequest<AuthResponse>('/auth/register', {
       method: 'POST',
-      body: JSON.stringify(credentials),
+      body: credentials, // axios автоматически сериализует объект в JSON
     });
     storage.setToken(response.token);
     
@@ -28,7 +28,7 @@ export const authApi = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     const response = await apiRequest<AuthResponse>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify(credentials),
+      body: credentials, // axios автоматически сериализует объект в JSON
     });
     storage.setToken(response.token);
     

@@ -24,8 +24,9 @@ export const TaskCard = ({ task, onDelete, onToggle, isMoving = false }: TaskCar
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
+    transition: isDragging ? 'none' : transition,
+    opacity: isDragging ? 0.4 : 1,
+    scale: isDragging ? 1.05 : 1,
   };
 
   return (

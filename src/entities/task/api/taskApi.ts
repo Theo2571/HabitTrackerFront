@@ -9,7 +9,7 @@ export const taskApi = {
   create: async (title: string): Promise<Task> => {
     return apiRequest<Task>('/tasks', {
       method: 'POST',
-      body: JSON.stringify({ title }),
+      body: { title }, // axios автоматически сериализует объект в JSON
     });
   },
 
