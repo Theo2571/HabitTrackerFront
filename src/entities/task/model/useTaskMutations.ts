@@ -35,8 +35,7 @@ export const useMoveTaskMutation = () => {
       }
     },
     onSuccess: (data) => {
-      // ТОЛЬКО после успешного ответа сервера обновляем данные
-      // Это переместит карточку в новую колонку
+      // Обновляем данные из ответа сервера
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === data.id ? data : task
@@ -44,9 +43,9 @@ export const useMoveTaskMutation = () => {
       );
     },
     onSettled: () => {
-      // НЕ инвалидируем запросы - данные уже обновлены в onSuccess
-      // Это предотвращает повторные запросы на медленном сервере
-      // которые могут перезаписать правильное состояние
+      // После завершения запроса (успех или ошибка) обновляем данные с сервера
+      // Это гарантирует, что у нас актуальные данные после перемещения
+      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
     },
   });
 };
