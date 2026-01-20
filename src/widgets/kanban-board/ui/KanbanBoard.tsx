@@ -76,19 +76,18 @@ export const KanbanBoard = () => {
     // Проверяем, изменился ли статус
     const currentTask = tasks.find((t) => t.id === taskId);
     if (currentTask && currentTask.completed !== newCompleted) {
-      setMovingTaskId(taskId); // Отмечаем что задача перемещается
+      // Запускаем запрос - карточка останется в старой колонке с loading
+      // и переместится только после успешного ответа сервера
+      setMovingTaskId(taskId);
       moveTaskMutation.mutate(
         { taskId, completed: newCompleted },
         {
           onSuccess: () => {
-            // Сбрасываем индикатор загрузки только после успешного обновления данных
-            // Небольшая задержка чтобы UI успел обновиться
-            setTimeout(() => {
-              setMovingTaskId(null);
-            }, 100);
+            // После успешного перемещения убираем индикатор загрузки
+            setMovingTaskId(null);
           },
           onError: () => {
-            // При ошибке тоже сбрасываем индикатор (данные откатятся автоматически)
+            // При ошибке тоже убираем индикатор (карточка остается на месте)
             setMovingTaskId(null);
           },
         }
@@ -135,7 +134,11 @@ export const KanbanBoard = () => {
       <DragOverlay>
         {activeTask ? (
           <div className="kanban-card-overlay">
-            <TaskCard task={activeTask} onDelete={() => {}} isMoving={movingTaskId === activeTask.id} />
+            <TaskCard 
+              task={activeTask} 
+              onDelete={() => {}} 
+              isMoving={movingTaskId === activeTask.id} 
+            />
           </div>
         ) : null}
       </DragOverlay>

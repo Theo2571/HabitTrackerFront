@@ -14,10 +14,12 @@ export const useMoveTaskMutation = () => {
       return result;
     },
     onMutate: async ({ taskId, completed }) => {
+      // Отменяем исходящие запросы
       await queryClient.cancelQueries({ queryKey: TASKS_QUERY_KEY });
       const previousTasks = queryClient.getQueryData<Task[]>(TASKS_QUERY_KEY);
 
-      // Оптимистично обновляем UI
+      // Оптимистично перемещаем карточку - она сразу появится в новой колонке
+      // и исчезнет из старой (благодаря фильтрации по completed)
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === taskId ? { ...task, completed } : task
@@ -27,14 +29,14 @@ export const useMoveTaskMutation = () => {
       return { previousTasks };
     },
     onError: (_err, _variables, context) => {
-      // Откатываем изменения при ошибке
+      // Откатываем оптимистичное обновление при ошибке
       if (context?.previousTasks) {
         queryClient.setQueryData(TASKS_QUERY_KEY, context.previousTasks);
       }
     },
     onSuccess: (data) => {
-      // Обновляем данные после успешного запроса данными с сервера
-      // Это гарантирует, что мы используем актуальные данные с сервера
+      // ТОЛЬКО после успешного ответа сервера обновляем данные
+      // Это переместит карточку в новую колонку
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === data.id ? data : task
