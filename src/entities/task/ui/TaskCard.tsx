@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { Task } from '../../../shared/types';
-import './TaskCard.css';
+import styles from './TaskCard.module.css';
 
 interface TaskCardProps {
   task: Task;
@@ -33,25 +33,25 @@ export const TaskCard = ({ task, onDelete, onToggle, isMoving = false }: TaskCar
     <div
       ref={setNodeRef}
       style={style}
-      className={`task-card ${task.completed ? 'task-card-completed' : ''} ${isDragging ? 'task-card-dragging' : ''} ${isMoving ? 'task-card-moving' : ''}`}
+      className={`${styles.taskCard} ${task.completed ? styles.completed : ''} ${isDragging ? styles.dragging : ''} ${isMoving ? styles.moving : ''}`}
       {...attributes}
       {...listeners}
     >
       {isMoving && (
-        <div className="task-card-loading-overlay">
-          <div className="task-card-spinner"></div>
+        <div className={styles.loadingOverlay}>
+          <div className={styles.spinner}></div>
         </div>
       )}
-      <div className="task-card-content">
-        <div className="task-card-title">{task.title}</div>
+      <div className={styles.content}>
+        <div className={styles.title}>{task.title}</div>
         {task.completed && (
-          <div className="task-card-badge">✓ Done</div>
+          <div className={styles.badge}>✓ Done</div>
         )}
       </div>
-      <div className="task-card-actions">
+      <div className={styles.actions}>
         {onToggle && (
           <button
-            className="task-card-toggle"
+            className={styles.toggle}
             onClick={(e) => {
               e.stopPropagation();
               onToggle(task.id);
@@ -63,7 +63,7 @@ export const TaskCard = ({ task, onDelete, onToggle, isMoving = false }: TaskCar
           </button>
         )}
         <button
-          className="task-card-delete"
+          className={styles.delete}
           onClick={(e) => {
             e.stopPropagation();
             onDelete(task.id);

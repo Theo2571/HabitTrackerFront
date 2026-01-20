@@ -2,7 +2,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { TaskCard } from './TaskCard';
 import type { Task } from '../../../shared/types';
-import './KanbanColumn.css';
+import styles from './KanbanColumn.module.css';
 
 interface KanbanColumnProps {
   id: string;
@@ -24,16 +24,16 @@ export const KanbanColumn = ({ id, title, tasks, onDelete, onToggle, color, movi
   return (
     <div
       ref={setNodeRef}
-      className={`kanban-column kanban-column-${color} ${isOver ? 'kanban-column-over' : ''}`}
+      className={`${styles.column} ${styles[color]} ${isOver ? styles.over : ''}`}
     >
-      <div className="kanban-column-header">
-        <h2 className="kanban-column-title">{title}</h2>
-        <span className="kanban-column-count">{tasks.length}</span>
+      <div className={styles.header}>
+        <h2 className={styles.title}>{title}</h2>
+        <span className={styles.count}>{tasks.length}</span>
       </div>
       <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
-        <div className="kanban-column-content">
+        <div className={styles.content}>
           {tasks.length === 0 ? (
-            <div className="kanban-column-empty">
+            <div className={styles.empty}>
               {color === 'pending' ? '✨ Drop tasks here' : '🎉 All done!'}
             </div>
           ) : (

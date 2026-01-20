@@ -1,5 +1,5 @@
 import type { Task } from '../../../shared/types';
-import './TaskItem.css';
+import styles from './TaskItem.module.css';
 
 interface TaskItemProps {
   task: Task;
@@ -9,18 +9,18 @@ interface TaskItemProps {
 
 export const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
   return (
-    <div className={`task-item ${task.completed ? 'completed' : ''}`}>
-      <label className="task-checkbox">
+    <div className={`${styles.item} ${task.completed ? styles.completed : ''}`}>
+      <label className={styles.checkbox}>
         <input
           type="checkbox"
           checked={task.completed}
           onChange={onToggle}
         />
-        <span className="task-title">{task.title}</span>
+        <span className={styles.title}>{task.title}</span>
       </label>
       <button
         onClick={onDelete}
-        className="delete-button"
+        className={styles.deleteButton}
         aria-label="Delete task"
       >
         ×

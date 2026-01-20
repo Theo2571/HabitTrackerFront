@@ -1,6 +1,6 @@
 import { useTasksQuery, useToggleTaskMutation, useDeleteTaskMutation } from '../../../entities/task/model/useTaskQueries';
 import { TaskItem } from '../../../entities/task/ui/TaskItem';
-import './TaskList.css';
+import styles from './TaskList.module.css';
 
 export const TaskList = () => {
   const { data: tasks = [], isLoading, error } = useTasksQuery();
@@ -8,19 +8,19 @@ export const TaskList = () => {
   const deleteMutation = useDeleteTaskMutation();
 
   if (isLoading) {
-    return <div className="loading">Loading tasks...</div>;
+    return <div className={styles.loading}>Loading tasks...</div>;
   }
 
   if (error) {
-    return <div className="error-message">Failed to load tasks</div>;
+    return <div className={styles.errorMessage}>Failed to load tasks</div>;
   }
 
   if (tasks.length === 0) {
-    return <div className="empty-state">No tasks yet. Create your first task!</div>;
+    return <div className={styles.emptyState}>No tasks yet. Create your first task!</div>;
   }
 
   return (
-    <div className="tasks-list">
+    <div className={styles.list}>
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

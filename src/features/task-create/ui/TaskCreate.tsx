@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useCreateTaskMutation } from '../../../entities/task/model/useTaskQueries';
-import './TaskCreate.css';
+import styles from './TaskCreate.module.css';
 
 export const TaskCreate = () => {
   const [title, setTitle] = useState('');
@@ -19,18 +19,18 @@ export const TaskCreate = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="task-form">
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Add a new task..."
-        className="task-input"
+        className={styles.input}
         disabled={createMutation.isPending}
       />
       <button
         type="submit"
-        className="add-button"
+        className={styles.addButton}
         disabled={createMutation.isPending || !title.trim()}
       >
         {createMutation.isPending ? 'Adding...' : 'Add Task'}

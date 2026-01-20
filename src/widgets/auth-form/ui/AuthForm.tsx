@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import './AuthForm.css';
+import styles from './AuthForm.module.css';
 
 interface AuthFormProps {
   title: string;
@@ -30,11 +30,11 @@ export const AuthForm = ({
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className={styles.container}>
+      <div className={styles.card}>
         <h1>{title}</h1>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="username">Username</label>
             <input
               id="username"
@@ -45,7 +45,7 @@ export const AuthForm = ({
               autoComplete="username"
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -56,12 +56,12 @@ export const AuthForm = ({
               autoComplete={title === 'Login' ? 'current-password' : 'new-password'}
             />
           </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" disabled={loading} className="auth-button">
+          {error && <div className={styles.errorMessage}>{error}</div>}
+          <button type="submit" disabled={loading} className={styles.button}>
             {loading ? 'Processing...' : title}
           </button>
         </form>
-        <p className="auth-link">
+        <p className={styles.link}>
           {linkText} <Link to={linkTo}>{linkLabel}</Link>
         </p>
       </div>

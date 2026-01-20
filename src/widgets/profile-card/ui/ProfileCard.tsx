@@ -5,7 +5,7 @@ import { useProfile } from '../../../entities/user/model/useProfile';
 import { ProfileAvatar } from '../../../entities/user/ui/ProfileAvatar';
 import { useTasksQuery } from '../../../entities/task/model/useTaskQueries';
 import { authApi } from '../../../features/auth/api/authApi';
-import './ProfileCard.css';
+import styles from './ProfileCard.module.css';
 
 export const ProfileCard = () => {
   // Используем React Query только на странице профиля (enabled: true)
@@ -38,8 +38,8 @@ export const ProfileCard = () => {
   if (!displayProfile) {
     if (isLoadingProfile) {
       return (
-        <div className="profile-card profile-card-loading">
-          <div className="profile-skeleton">Loading profile...</div>
+        <div className={`${styles.card} ${styles.loading}`}>
+          <div className={styles.skeleton}>Loading profile...</div>
         </div>
       );
     }
@@ -96,21 +96,21 @@ export const ProfileCard = () => {
   const isSaving = updateMutation.isPending;
 
   return (
-    <div className="profile-card">
-      <div className="profile-card-header">
-        <div className="profile-card-avatar-wrapper">
+    <div className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.avatarWrapper}>
           <ProfileAvatar username={displayProfile.username} size="large" />
-          <div className="profile-card-status"></div>
+          <div className={styles.status}></div>
         </div>
-        <div className="profile-card-info">
-          <h1 className="profile-card-username">{displayProfile.username}</h1>
-          <p className="profile-card-joined">
-            Member since {formatDate(displayProfile.createdAt)}
+        <div className={styles.info}>
+          <h1 className={styles.username}>{displayProfile.username}</h1>
+          <p className={styles.joined}>
+            Registered: {formatDate(displayProfile.createdAt)}
           </p>
         </div>
         {!isEditing && (
           <button
-            className="profile-card-edit-btn"
+            className={styles.editBtn}
             onClick={() => setIsEditing(true)}
             aria-label="Edit profile"
             disabled={isLoadingProfile}
@@ -120,10 +120,10 @@ export const ProfileCard = () => {
         )}
       </div>
 
-      <div className="profile-card-content">
+      <div className={styles.content}>
         {isEditing ? (
-          <div className="profile-card-edit-form">
-            <div className="profile-form-group">
+          <div className={styles.editForm}>
+            <div className={styles.formGroup}>
               <label htmlFor="email">Email</label>
               <input
                 id="email"
@@ -134,7 +134,7 @@ export const ProfileCard = () => {
                 disabled={isSaving}
               />
             </div>
-            <div className="profile-form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="bio">Bio</label>
               <textarea
                 id="bio"
@@ -146,20 +146,20 @@ export const ProfileCard = () => {
               />
             </div>
             {updateMutation.isError && (
-              <div className="profile-form-error">
+              <div className={styles.formError}>
                 ❌ Failed to save. Please try again.
               </div>
             )}
-            <div className="profile-form-actions">
+            <div className={styles.formActions}>
               <button 
-                className="profile-save-btn" 
+                className={styles.saveBtn} 
                 onClick={handleSave}
                 disabled={isSaving}
               >
                 {isSaving ? '⏳ Saving...' : '💾 Save'}
               </button>
               <button 
-                className="profile-cancel-btn" 
+                className={styles.cancelBtn} 
                 onClick={handleCancel}
                 disabled={isSaving}
               >
@@ -170,44 +170,44 @@ export const ProfileCard = () => {
         ) : (
           <>
             {displayProfile.email && (
-              <div className="profile-card-field">
-                <span className="profile-field-icon">📧</span>
-                <span className="profile-field-value">{displayProfile.email}</span>
+              <div className={styles.field}>
+                <span className={styles.fieldIcon}>📧</span>
+                <span className={styles.fieldValue}>{displayProfile.email}</span>
               </div>
             )}
             {displayProfile.bio && (
-              <div className="profile-card-bio">
-                <span className="profile-field-icon">📝</span>
+              <div className={styles.bio}>
+                <span className={styles.fieldIcon}>📝</span>
                 <p>{displayProfile.bio}</p>
               </div>
             )}
             {!displayProfile.email && !displayProfile.bio && (
-              <p className="profile-card-empty">Click Edit to add your information</p>
+              <p className={styles.empty}>Click Edit to add your information</p>
             )}
           </>
         )}
       </div>
 
-      <div className="profile-card-stats">
-        <div className="profile-stat-item">
-          <div className="profile-stat-value">{stats.totalTasks}</div>
-          <div className="profile-stat-label">Total Tasks</div>
+      <div className={styles.stats}>
+        <div className={styles.statItem}>
+          <div className={styles.statValue}>{stats.totalTasks}</div>
+          <div className={styles.statLabel}>Total Tasks</div>
         </div>
-        <div className="profile-stat-item">
-          <div className="profile-stat-value profile-stat-pending">{stats.pendingTasks}</div>
-          <div className="profile-stat-label">Pending</div>
+        <div className={styles.statItem}>
+          <div className={`${styles.statValue} ${styles.statPending}`}>{stats.pendingTasks}</div>
+          <div className={styles.statLabel}>Pending</div>
         </div>
-        <div className="profile-stat-item">
-          <div className="profile-stat-value profile-stat-completed">{stats.completedTasks}</div>
-          <div className="profile-stat-label">Completed</div>
+        <div className={styles.statItem}>
+          <div className={`${styles.statValue} ${styles.statCompleted}`}>{stats.completedTasks}</div>
+          <div className={styles.statLabel}>Completed</div>
         </div>
       </div>
 
-      <div className="profile-card-footer">
-        <Link to="/tasks" className="profile-back-link">
+      <div className={styles.footer}>
+        <Link to="/tasks" className={styles.backLink}>
           ← Back to Tasks
         </Link>
-        <button onClick={handleLogout} className="profile-logout-btn">
+        <button onClick={handleLogout} className={styles.logoutBtn}>
           Logout
         </button>
       </div>

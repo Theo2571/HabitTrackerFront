@@ -5,7 +5,7 @@ import { useProfile } from '../../../entities/user/model/useProfile';
 import { ProfileAvatar } from '../../../entities/user/ui/ProfileAvatar';
 import { TaskCreate } from '../../../features/task-create';
 import { KanbanBoard } from '../../../widgets/kanban-board';
-import './TasksPage.css';
+import styles from './TasksPage.module.css';
 
 export const TasksPage = () => {
   const navigate = useNavigate();
@@ -17,28 +17,28 @@ export const TasksPage = () => {
   };
 
   return (
-    <div className="tasks-container">
-      <div className="tasks-header">
-        <div className="tasks-header-content">
-          <h1 className="tasks-title">🚀 My Kanban Board</h1>
-          <p className="tasks-subtitle">Drag & drop to organize your tasks</p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1 className={styles.title}>🚀 My Kanban Board</h1>
+          <p className={styles.subtitle}>Drag & drop to organize your tasks</p>
         </div>
-        <div className="tasks-header-actions">
-          <Link to="/profile" className="profile-link">
+        <div className={styles.actions}>
+          <Link to="/profile" className={styles.profileLink}>
             {profile && (
               <>
                 <ProfileAvatar username={profile.username} size="small" />
-                <span className="profile-link-text">{profile.username}</span>
+                <span className={styles.profileLinkText}>{profile.username}</span>
               </>
             )}
           </Link>
-          <button onClick={handleLogout} className="logout-button">
+          <button onClick={handleLogout} className={styles.logoutButton}>
             Logout
           </button>
         </div>
       </div>
 
-      <div className="tasks-create-wrapper">
+      <div className={styles.createWrapper}>
         <TaskCreate />
       </div>
 

@@ -1,4 +1,4 @@
-import './ProfileAvatar.css';
+import styles from './ProfileAvatar.module.css';
 
 interface ProfileAvatarProps {
   username: string;
@@ -37,10 +37,10 @@ export const ProfileAvatar = ({ username, size = 'medium', className = '' }: Pro
 
   return (
     <div
-      className={`profile-avatar profile-avatar-${size} ${className}`}
+      className={`${styles.avatar} ${styles[size]} ${className}`}
       style={{ background: getColor(username) }}
     >
-      <span className="profile-avatar-text">{getInitials(username)}</span>
+      <span className={styles.text}>{getInitials(username)}</span>
     </div>
   );
 };

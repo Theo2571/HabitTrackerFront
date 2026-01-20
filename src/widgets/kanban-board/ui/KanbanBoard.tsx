@@ -15,7 +15,7 @@ import { useMoveTaskMutation } from '../../../entities/task/model/useTaskMutatio
 import { KanbanColumn } from '../../../entities/task/ui/KanbanColumn';
 import { TaskCard } from '../../../entities/task/ui/TaskCard';
 import type { Task } from '../../../shared/types';
-import './KanbanBoard.css';
+import styles from './KanbanBoard.module.css';
 
 export const KanbanBoard = () => {
   const { data: tasks = [], isLoading, error } = useTasksQuery();
@@ -96,11 +96,11 @@ export const KanbanBoard = () => {
   };
 
   if (isLoading) {
-    return <div className="kanban-loading">Loading tasks...</div>;
+    return <div className={styles.loading}>Loading tasks...</div>;
   }
 
   if (error) {
-    return <div className="kanban-error">Failed to load tasks</div>;
+    return <div className={styles.error}>Failed to load tasks</div>;
   }
 
   return (
@@ -110,7 +110,7 @@ export const KanbanBoard = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="kanban-board">
+      <div className={styles.board}>
         <KanbanColumn
           id="pending"
           title="📋 To Do"
@@ -133,7 +133,7 @@ export const KanbanBoard = () => {
 
       <DragOverlay>
         {activeTask ? (
-          <div className="kanban-card-overlay">
+          <div className={styles.cardOverlay}>
             <TaskCard 
               task={activeTask} 
               onDelete={() => {}} 

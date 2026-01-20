@@ -1,10 +1,10 @@
 import { ProfileCard } from '../../../widgets/profile-card';
-import './ProfilePage.css';
+import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
   return (
-    <div className="profile-page">
-      <div className="profile-page-container">
+    <div className={styles.page}>
+      <div className={styles.container}>
         <ProfileCard />
       </div>
     </div>
