@@ -36,6 +36,8 @@ export const useMoveTaskMutation = () => {
     },
     onSuccess: (data) => {
       // Обновляем данные из ответа сервера
+      // Карточка уже оптимистично перемещена в onMutate (изменили completed)
+      // Здесь подтверждаем правильные данные с сервера
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === data.id ? data : task
@@ -43,9 +45,10 @@ export const useMoveTaskMutation = () => {
       );
     },
     onSettled: () => {
-      // После завершения запроса (успех или ошибка) обновляем данные с сервера
-      // Это гарантирует, что у нас актуальные данные после перемещения
-      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+      // Не делаем refetch/invalidate - это может показать старые данные на миг
+      // Оптимистичное обновление уже переместило карточку, onSuccess подтвердил данные
+      // Если нужна полная синхронизация, можно сделать refetch в фоне с задержкой
+      // но для визуальной стабильности лучше не трогать
     },
   });
 };
