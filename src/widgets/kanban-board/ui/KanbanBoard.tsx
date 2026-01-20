@@ -23,6 +23,7 @@ export const KanbanBoard = () => {
   const toggleMutation = useToggleTaskMutation();
   const deleteMutation = useDeleteTaskMutation();
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [movingTaskId, setMovingTaskId] = useState<number | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -75,7 +76,16 @@ export const KanbanBoard = () => {
     // Проверяем, изменился ли статус
     const currentTask = tasks.find((t) => t.id === taskId);
     if (currentTask && currentTask.completed !== newCompleted) {
-      moveTaskMutation.mutate({ taskId, completed: newCompleted });
+      setMovingTaskId(taskId); // Отмечаем что задача перемещается
+      moveTaskMutation.mutate(
+        { taskId, completed: newCompleted },
+        {
+          onSettled: () => {
+            // Когда запрос завершился (успех или ошибка), убираем индикатор загрузки
+            setMovingTaskId(null);
+          },
+        }
+      );
     }
   };
 
@@ -102,6 +112,7 @@ export const KanbanBoard = () => {
           onDelete={deleteMutation.mutate}
           onToggle={toggleMutation.mutate}
           color="pending"
+          movingTaskId={movingTaskId}
         />
         <KanbanColumn
           id="completed"
@@ -110,13 +121,14 @@ export const KanbanBoard = () => {
           onDelete={deleteMutation.mutate}
           onToggle={toggleMutation.mutate}
           color="completed"
+          movingTaskId={movingTaskId}
         />
       </div>
 
       <DragOverlay>
         {activeTask ? (
           <div className="kanban-card-overlay">
-            <TaskCard task={activeTask} onDelete={() => {}} />
+            <TaskCard task={activeTask} onDelete={() => {}} isMoving={movingTaskId === activeTask.id} />
           </div>
         ) : null}
       </DragOverlay>

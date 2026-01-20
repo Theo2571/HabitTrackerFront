@@ -7,9 +7,10 @@ interface TaskCardProps {
   task: Task;
   onDelete: (id: number) => void;
   onToggle?: (id: number) => void;
+  isMoving?: boolean;
 }
 
-export const TaskCard = ({ task, onDelete, onToggle }: TaskCardProps) => {
+export const TaskCard = ({ task, onDelete, onToggle, isMoving = false }: TaskCardProps) => {
   const {
     attributes,
     listeners,
@@ -31,10 +32,15 @@ export const TaskCard = ({ task, onDelete, onToggle }: TaskCardProps) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`task-card ${task.completed ? 'task-card-completed' : ''} ${isDragging ? 'task-card-dragging' : ''}`}
+      className={`task-card ${task.completed ? 'task-card-completed' : ''} ${isDragging ? 'task-card-dragging' : ''} ${isMoving ? 'task-card-moving' : ''}`}
       {...attributes}
       {...listeners}
     >
+      {isMoving && (
+        <div className="task-card-loading-overlay">
+          <div className="task-card-spinner"></div>
+        </div>
+      )}
       <div className="task-card-content">
         <div className="task-card-title">{task.title}</div>
         {task.completed && (

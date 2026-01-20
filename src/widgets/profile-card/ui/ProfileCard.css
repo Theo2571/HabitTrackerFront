@@ -378,3 +378,54 @@
   }
 }
 
+/* Loading states */
+.profile-card-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.profile-skeleton {
+  color: #6c757d;
+  font-size: 16px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Error states */
+.profile-form-error {
+  padding: 12px 16px;
+  background: #fee;
+  border: 2px solid #dc3545;
+  border-radius: 12px;
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Disabled states */
+.profile-form-group input:disabled,
+.profile-form-group textarea:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.profile-save-btn:disabled,
+.profile-cancel-btn:disabled,
+.profile-card-edit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+

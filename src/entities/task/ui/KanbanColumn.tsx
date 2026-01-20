@@ -11,9 +11,10 @@ interface KanbanColumnProps {
   onDelete: (id: number) => void;
   onToggle?: (id: number) => void;
   color: 'pending' | 'completed';
+  movingTaskId?: number | null;
 }
 
-export const KanbanColumn = ({ id, title, tasks, onDelete, onToggle, color }: KanbanColumnProps) => {
+export const KanbanColumn = ({ id, title, tasks, onDelete, onToggle, color, movingTaskId }: KanbanColumnProps) => {
   const { setNodeRef, isOver } = useDroppable({
     id,
   });
@@ -37,7 +38,13 @@ export const KanbanColumn = ({ id, title, tasks, onDelete, onToggle, color }: Ka
             </div>
           ) : (
             tasks.map((task) => (
-              <TaskCard key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} />
+              <TaskCard 
+                key={task.id} 
+                task={task} 
+                onDelete={onDelete} 
+                onToggle={onToggle}
+                isMoving={movingTaskId === task.id}
+              />
             ))
           )}
         </div>
