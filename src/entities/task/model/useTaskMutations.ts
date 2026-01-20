@@ -33,7 +33,8 @@ export const useMoveTaskMutation = () => {
       }
     },
     onSuccess: (data) => {
-      // Обновляем данные после успешного запроса
+      // Обновляем данные после успешного запроса данными с сервера
+      // Это гарантирует, что мы используем актуальные данные с сервера
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) =>
         oldTasks.map((task) =>
           task.id === data.id ? data : task
@@ -41,8 +42,9 @@ export const useMoveTaskMutation = () => {
       );
     },
     onSettled: () => {
-      // Обновляем данные после завершения
-      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+      // НЕ инвалидируем запросы - данные уже обновлены в onSuccess
+      // Это предотвращает повторные запросы на медленном сервере
+      // которые могут перезаписать правильное состояние
     },
   });
 };

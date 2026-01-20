@@ -80,8 +80,15 @@ export const KanbanBoard = () => {
       moveTaskMutation.mutate(
         { taskId, completed: newCompleted },
         {
-          onSettled: () => {
-            // Когда запрос завершился (успех или ошибка), убираем индикатор загрузки
+          onSuccess: () => {
+            // Сбрасываем индикатор загрузки только после успешного обновления данных
+            // Небольшая задержка чтобы UI успел обновиться
+            setTimeout(() => {
+              setMovingTaskId(null);
+            }, 100);
+          },
+          onError: () => {
+            // При ошибке тоже сбрасываем индикатор (данные откатятся автоматически)
             setMovingTaskId(null);
           },
         }
