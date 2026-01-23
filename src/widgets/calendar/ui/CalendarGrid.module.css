@@ -1,0 +1,124 @@
+.calendar {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.navButton {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  color: #2d3436;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.navButton:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.1);
+}
+
+.monthYear {
+  margin: 0;
+  color: #2d3436;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.weekDay {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6c757d;
+  padding: 8px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.emptyCell {
+  aspect-ratio: 1;
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 12px;
+  }
+
+  .monthYear {
+    font-size: 15px;
+  }
+
+  .weekDays {
+    gap: 2px;
+    margin-bottom: 5px;
+  }
+
+  .weekDay {
+    font-size: 9px;
+    padding: 5px 1px;
+    letter-spacing: 0.2px;
+  }
+
+  .grid {
+    gap: 2px;
+  }
+
+  .navButton {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    min-width: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    margin-bottom: 10px;
+  }
+
+  .monthYear {
+    font-size: 14px;
+  }
+
+  .weekDay {
+    font-size: 8px;
+    padding: 4px 1px;
+  }
+
+  .grid {
+    gap: 1.5px;
+  }
+
+  .navButton {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    min-width: 30px;
+  }
+}

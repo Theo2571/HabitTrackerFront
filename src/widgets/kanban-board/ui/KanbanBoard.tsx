@@ -10,18 +10,34 @@ import {
   closestCorners,
 } from '@dnd-kit/core';
 import { useState } from 'react';
-import { useTasksQuery, useDeleteTaskMutation, useToggleTaskMutation } from '../../../entities/task/model/useTaskQueries';
+import { useQuery } from '@tanstack/react-query';
+import { useDeleteTaskMutation, useToggleTaskMutation } from '../../../entities/task/model/useTaskQueries';
 import { useMoveTaskMutation } from '../../../entities/task/model/useTaskMutations';
+import { taskApi } from '../../../entities/task/api/taskApi';
 import { KanbanColumn } from '../../../entities/task/ui/KanbanColumn';
 import { TaskCard } from '../../../entities/task/ui/TaskCard';
 import type { Task } from '../../../shared/types';
 import styles from './KanbanBoard.module.css';
 
-export const KanbanBoard = () => {
-  const { data: tasks = [], isLoading, error } = useTasksQuery();
-  const moveTaskMutation = useMoveTaskMutation();
-  const toggleMutation = useToggleTaskMutation();
-  const deleteMutation = useDeleteTaskMutation();
+interface KanbanBoardProps {
+  selectedDate?: string | null;
+}
+
+export const KanbanBoard = ({ selectedDate }: KanbanBoardProps) => {
+  // Всегда загружаем задачи по дате (selectedDate всегда есть, так как есть редирект на сегодня)
+  const { data: tasks = [], isLoading, error } = useQuery({
+    queryKey: ['tasks', 'by-date', selectedDate],
+    queryFn: async () => {
+      if (!selectedDate) return [];
+      return taskApi.getByDate(selectedDate);
+    },
+    enabled: !!selectedDate,
+    staleTime: 0, // Всегда загружать свежие данные
+  });
+  
+  const moveTaskMutation = useMoveTaskMutation(selectedDate);
+  const toggleMutation = useToggleTaskMutation(selectedDate);
+  const deleteMutation = useDeleteTaskMutation(selectedDate);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [movingTaskId, setMovingTaskId] = useState<number | null>(null);
 
@@ -38,6 +54,7 @@ export const KanbanBoard = () => {
       },
     })
   );
+
 
   const pendingTasks = tasks.filter((task) => !task.completed);
   const completedTasks = tasks.filter((task) => task.completed);
@@ -96,11 +113,11 @@ export const KanbanBoard = () => {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading tasks...</div>;
+    return <div className={styles.loading}>Loading tasks{selectedDate ? ` for ${selectedDate}` : ''}...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>Failed to load tasks</div>;
+    return <div className={styles.error}>Failed to load tasks for {selectedDate}</div>;
   }
 
   return (

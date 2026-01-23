@@ -1,0 +1,55 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  color: #2d3436;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.iconButton:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.iconButton:active {
+  transform: translateY(0);
+}
+
+.iconButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .iconButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .iconButton svg {
+    width: 18px;
+    height: 18px;
+  }
+}

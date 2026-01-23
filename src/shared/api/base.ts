@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError) => {
     // Обработка ошибки 401 (Unauthorized) - токен истек или невалиден
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       removeAuthToken();
       // Редирект на страницу логина только если мы не на странице логина/регистрации
       const currentPath = window.location.pathname;

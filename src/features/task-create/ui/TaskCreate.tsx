@@ -2,9 +2,13 @@ import { useState, FormEvent } from 'react';
 import { useCreateTaskMutation } from '../../../entities/task/model/useTaskQueries';
 import styles from './TaskCreate.module.css';
 
-export const TaskCreate = () => {
+interface TaskCreateProps {
+  selectedDate?: string;
+}
+
+export const TaskCreate = ({ selectedDate }: TaskCreateProps) => {
   const [title, setTitle] = useState('');
-  const createMutation = useCreateTaskMutation();
+  const createMutation = useCreateTaskMutation(selectedDate);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

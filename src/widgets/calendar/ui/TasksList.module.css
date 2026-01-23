@@ -1,0 +1,96 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  transition: all 0.2s ease;
+}
+
+.task:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.taskBullet {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.checkIcon {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(81, 207, 102, 0.3);
+}
+
+.taskTitle {
+  color: #2d3436;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.task.completed {
+  opacity: 0.7;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-left-color: #51cf66;
+}
+
+.task.completed .taskTitle {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.task.completed:hover {
+  opacity: 0.9;
+  background: linear-gradient(135deg, #dee2e6 0%, #ced4da 100%);
+}
+
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.emptyText {
+  margin: 0;
+  color: #6c757d;
+  font-size: 14px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .task {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .taskTitle {
+    font-size: 13px;
+  }
+
+  .empty {
+    padding: 24px 12px;
+  }
+}
