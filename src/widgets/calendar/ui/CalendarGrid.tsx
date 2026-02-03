@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DayCell } from './DayCell';
 import type { Task } from '../../../shared/types';
 import styles from './CalendarGrid.module.css';
@@ -8,10 +8,29 @@ interface CalendarGridProps {
   selectedDate: string | null;
   calendarData: Record<string, Task[]>;
   currentDateFromUrl?: string | null;
+  /** Текущий месяц календаря YYYY-MM; при смене месяца вызывается onMonthChange для подгрузки данных */
+  viewingYearMonth?: string;
+  onMonthChange?: (yearMonth: string) => void;
 }
 
-export const CalendarGrid = ({ onDateSelect, selectedDate, calendarData, currentDateFromUrl }: CalendarGridProps) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+function parseYearMonth(ym: string): Date {
+  const [y, m] = ym.split('-').map(Number);
+  return new Date(y, m - 1, 1);
+}
+
+export const CalendarGrid = ({
+  onDateSelect,
+  selectedDate,
+  calendarData,
+  currentDateFromUrl,
+  viewingYearMonth,
+  onMonthChange,
+}: CalendarGridProps) => {
+  const initialDate = viewingYearMonth ? parseYearMonth(viewingYearMonth) : new Date();
+  const [currentDate, setCurrentDate] = useState(initialDate);
+  useEffect(() => {
+    if (viewingYearMonth) setCurrentDate(parseYearMonth(viewingYearMonth));
+  }, [viewingYearMonth]);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -39,11 +58,17 @@ export const CalendarGrid = ({ onDateSelect, selectedDate, calendarData, current
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const goToPreviousMonth = () => {
-    setCurrentDate(new Date(year, month - 1, 1));
+    const next = new Date(year, month - 1, 1);
+    setCurrentDate(next);
+    const ym = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}`;
+    onMonthChange?.(ym);
   };
 
   const goToNextMonth = () => {
-    setCurrentDate(new Date(year, month + 1, 1));
+    const next = new Date(year, month + 1, 1);
+    setCurrentDate(next);
+    const ym = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}`;
+    onMonthChange?.(ym);
   };
 
   const formatDateKey = (day: number): string => {

@@ -58,7 +58,15 @@ export const AuthForm = ({
           </div>
           {error && <div className={styles.errorMessage}>{error}</div>}
           <button type="submit" disabled={loading} className={styles.button}>
-            {loading ? 'Processing...' : title}
+            {loading ? (
+              <>
+                <span className={styles.spinner} aria-hidden />
+                {title === 'Login' ? 'Signing in...' : 'Creating account...'}
+                <span className={styles.loadingLine} aria-hidden />
+              </>
+            ) : (
+              title
+            )}
           </button>
         </form>
         <p className={styles.link}>

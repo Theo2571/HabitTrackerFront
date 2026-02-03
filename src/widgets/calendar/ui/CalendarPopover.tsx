@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarGrid } from './CalendarGrid';
 import { TasksList } from './TasksList';
-import { useCalendarData } from '../model/useCalendarData';
+import { useCalendarData, getCurrentYearMonth } from '../model/useCalendarData';
 import { taskApi } from '../../../entities/task/api/taskApi';
 import styles from './CalendarPopover.module.css';
 
@@ -21,8 +21,9 @@ export const CalendarPopover = ({ onClose, anchorRef }: CalendarPopoverProps) =>
   // Получаем текущую дату из URL
   const currentDateFromUrl = new URLSearchParams(location.search).get('date');
   
-  // Загружаем данные календаря с сервера
-  const { data: calendarData = {}, isLoading: isLoadingCalendar } = useCalendarData();
+  // Месяц, который показывается в календаре (для запроса GET /tasks/calendar?yearMonth=)
+  const [viewingYearMonth, setViewingYearMonth] = useState(() => getCurrentYearMonth());
+  const { data: calendarData = {}, isLoading: isLoadingCalendar } = useCalendarData(viewingYearMonth);
   
   // Загружаем задачи для выбранной даты (если их нет в calendarData)
   const { data: selectedDateTasksFromApi = [], isLoading: isLoadingTasks } = useQuery({
@@ -84,6 +85,8 @@ export const CalendarPopover = ({ onClose, anchorRef }: CalendarPopoverProps) =>
               selectedDate={selectedDate}
               calendarData={calendarData}
               currentDateFromUrl={currentDateFromUrl}
+              viewingYearMonth={viewingYearMonth}
+              onMonthChange={setViewingYearMonth}
             />
           )}
           {selectedDate && (

@@ -12,7 +12,7 @@ export const LoginPage = () => {
     setError('');
     try {
       await loginMutation.mutateAsync({ username, password });
-      navigate('/tasks');
+      navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     }
@@ -24,7 +24,7 @@ export const LoginPage = () => {
       onSubmit={handleLogin}
       linkText="Don't have an account?"
       linkTo="/register"
-      linkLabel="Register"
+      linkLabel="Create account"
       error={error}
       loading={loginMutation.isPending}
     />

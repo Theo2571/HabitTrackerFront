@@ -15,11 +15,24 @@ export const useTasksQuery = () => {
   });
 };
 
+export interface CreateTaskPayload {
+  title: string;
+  date?: string;
+  frequency?: string;
+  reminder?: string;
+}
+
 export const useCreateTaskMutation = (selectedDate?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (title: string) => taskApi.create(title, selectedDate),
+    mutationFn: (payload: CreateTaskPayload) => {
+      const date = payload.date ?? selectedDate;
+      return taskApi.create(payload.title, date, {
+        frequency: payload.frequency,
+        reminder: payload.reminder,
+      });
+    },
     onSuccess: (newTask) => {
       // Обновляем общий список задач
       queryClient.setQueryData<Task[]>(TASKS_QUERY_KEY, (oldTasks = []) => [
@@ -36,15 +49,15 @@ export const useCreateTaskMutation = (selectedDate?: string) => {
       }
       
       // Обновляем календарь
-      if (selectedDate) {
+      const taskDate = newTask.date ?? selectedDate;
+      if (taskDate) {
         queryClient.setQueryData<Record<string, Task[]>>(['tasks', 'calendar'], (oldData = {}) => {
           return {
             ...oldData,
-            [selectedDate]: [...(oldData[selectedDate] || []), newTask],
+            [taskDate]: [...(oldData[taskDate] || []), newTask],
           };
         });
       } else {
-        // Инвалидируем календарь чтобы он перезагрузился
         queryClient.invalidateQueries({ queryKey: ['tasks', 'calendar'] });
       }
     },

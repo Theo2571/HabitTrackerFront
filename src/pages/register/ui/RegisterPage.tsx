@@ -12,7 +12,7 @@ export const RegisterPage = () => {
     setError('');
     try {
       await registerMutation.mutateAsync({ username, password });
-      navigate('/tasks');
+      navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     }
@@ -24,7 +24,7 @@ export const RegisterPage = () => {
       onSubmit={handleRegister}
       linkText="Already have an account?"
       linkTo="/login"
-      linkLabel="Login"
+      linkLabel="Sign in"
       error={error}
       loading={registerMutation.isPending}
     />

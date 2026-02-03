@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { useProfileQuery, useUpdateProfileMutation } from '../../../entities/user/model/useProfileQueries';
 import { useProfile } from '../../../entities/user/model/useProfile';
 import { ProfileAvatar } from '../../../entities/user/ui/ProfileAvatar';
 import { useTasksQuery } from '../../../entities/task/model/useTaskQueries';
-import { authApi } from '../../../features/auth/api/authApi';
 import styles from './ProfileCard.module.css';
 
 export const ProfileCard = () => {
@@ -17,7 +15,6 @@ export const ProfileCard = () => {
   const displayProfile = profile ?? localProfile;
 
   const { data: tasks = [] } = useTasksQuery();
-  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     email: displayProfile?.email || '',
@@ -77,11 +74,6 @@ export const ProfileCard = () => {
       bio: displayProfile.bio || '',
     });
     setIsEditing(false);
-  };
-
-  const handleLogout = () => {
-    authApi.logout();
-    navigate('/login');
   };
 
   const formatDate = (dateString: string) => {
@@ -203,14 +195,6 @@ export const ProfileCard = () => {
         </div>
       </div>
 
-      <div className={styles.footer}>
-        <Link to="/tasks" className={styles.backLink}>
-          ← Back to Tasks
-        </Link>
-        <button onClick={handleLogout} className={styles.logoutBtn}>
-          Logout
-        </button>
-      </div>
     </div>
   );
 };

@@ -10,13 +10,13 @@
 }
 
 .navButton {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: none;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
   width: 36px;
   height: 36px;
-  font-size: 20px;
-  color: #2d3436;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -26,16 +26,16 @@
 }
 
 .navButton:hover {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  transform: scale(1.1);
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--text-primary);
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .monthYear {
   margin: 0;
-  color: #2d3436;
-  font-size: 18px;
-  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 .weekDays {
@@ -47,9 +47,9 @@
 
 .weekDay {
   text-align: center;
-  font-size: 12px;
+  font-size: 0.6875rem;
   font-weight: 600;
-  color: #6c757d;
+  color: var(--text-muted);
   padding: 8px 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;

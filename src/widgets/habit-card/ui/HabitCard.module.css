@@ -1,0 +1,227 @@
+/* Horizontal glass habit card – icon, name, frequency, reminder, progress ring, streak */
+
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  grid-template-areas: 'icon content streak progress action';
+  padding: 18px 24px;
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-light);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cardCompleted {
+  border-color: rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+}
+
+.cardCompleted:hover {
+  box-shadow: 0 0 28px rgba(34, 211, 238, 0.12);
+}
+
+.iconWrap {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.cardCompleted .iconWrap {
+  color: var(--accent-cyan);
+}
+
+.content {
+  grid-area: content;
+  min-width: 0;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.meta {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.frequency {
+  margin-right: 8px;
+}
+
+.reminder {
+  color: var(--text-muted);
+}
+
+.streakWrap {
+  grid-area: streak;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.streakFlame {
+  width: 18px;
+  height: 18px;
+  color: #f59e0b;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.4));
+}
+
+.streakStrong .streakFlame {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+}
+
+.streakStrong {
+  color: var(--text-primary);
+}
+
+.progressWrap {
+  grid-area: progress;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.progressBg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 3;
+}
+
+.progressStroke {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.progressValue {
+  font-size: 0.625rem;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+
+.checkBtn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.checkBtn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
+}
+
+.checkBtnCompleted {
+  background: var(--gradient-accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.35);
+}
+
+.checkBtnCompleted:hover {
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
+}
+
+.checkBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.checkBtn {
+  grid-area: action;
+}
+
+.checkIcon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas:
+      'icon content content content'
+      'icon streak progress action';
+    gap: 10px 12px;
+    padding: 14px 16px;
+  }
+
+  .iconWrap {
+    width: 36px;
+    height: 36px;
+    grid-row: span 2;
+    align-self: center;
+  }
+
+  .content {
+    align-self: center;
+    grid-column: 2 / -1;
+  }
+
+  .name {
+    font-size: 0.9375rem;
+  }
+
+  .meta {
+    font-size: 0.75rem;
+  }
+
+  .streakWrap {
+    font-size: 0.8125rem;
+  }
+
+  .streakFlame {
+    width: 16px;
+    height: 16px;
+  }
+
+  .progressWrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .progressWrap svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .checkBtn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .checkIcon {
+    width: 18px;
+    height: 18px;
+  }
+}

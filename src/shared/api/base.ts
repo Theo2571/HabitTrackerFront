@@ -32,23 +32,17 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Response interceptor - обрабатывает ошибки и редирект при 401
+// Response interceptor: при 401/403 сбрасываем токен и редирект на /login (по контракту API)
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error: AxiosError) => {
-    // Обработка ошибки 401 (Unauthorized) - токен истек или невалиден
     if (error.response?.status === 401 || error.response?.status === 403) {
       removeAuthToken();
-      // Редирект на страницу логина только если мы не на странице логина/регистрации
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/login' && currentPath !== '/register') {
+      const path = window.location.pathname;
+      if (path !== '/login' && path !== '/register') {
         window.location.href = '/login';
       }
     }
-
-    // Пробрасываем ошибку дальше для обработки в компонентах
     return Promise.reject(error);
   }
 );
